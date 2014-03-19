@@ -12,6 +12,7 @@ public class RandomValue {
 	}
 	
 	public double generateRandom(){
-		return (rnd.nextGaussian() * deviation) + average;
+		return average;
+		// return (rnd.nextGaussian() * deviation) + average;
 	}
 }
