@@ -1,3 +1,5 @@
+package mysim;
+
 import java.util.HashMap;
 
 public class Job {
@@ -5,25 +7,40 @@ public class Job {
 	JobType type;
 	int arrivalTime;
 	VM assignedTo;
-	int time = 0;
+	double time = 0;
 	int id;
 	double utilCPU, utilRAM, utilDisk, utilNetwork;
-	boolean isFinished = false;
-	int startTime = -1;
-	
-	public void setFinished() {
-		this.isFinished = true;
+	boolean isStarted = false;
+	boolean isDefunct = false;
+
+	public void setDefunct(boolean isDefunct) {
+		this.isDefunct = isDefunct;
 	}
-	
-	
-	public void startJob(int time){
-		startTime = time;
+
+	public boolean isDefunct() {
+		return isDefunct;
 	}
-	
-	public boolean isStarted(){
-		return startTime != -1;
+
+	public boolean isPreviouslyFinished() {
+		return time == -1;
 	}
-	
+
+	public boolean isFinished() {
+		return time <= 0;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void startJob() {
+		isStarted = true;
+	}
+
+	public boolean isStarted() {
+		return isStarted;
+	}
+
 	public void assignVM(VM vm) {
 		vm.jobs.add(this);
 		VMType vmType = vm.type;
@@ -43,8 +60,19 @@ public class Job {
 		counter++;
 	}
 
+	public void update(double decrease) {
+		if (isStarted() && !isFinished()) {
+			time = time - decrease;
+			if (time < 0) {
+				time = 0;
+			}
+		}
+
+	}
+
 	@Override
 	public String toString() {
-		return id + " " + type.name + " " + arrivalTime;
+		return String.format("#%d, %.1f", id, time);
 	}
+
 }

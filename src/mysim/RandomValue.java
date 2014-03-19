@@ -1,3 +1,4 @@
+package mysim;
 import java.util.Random;
 
 
@@ -13,6 +14,7 @@ public class RandomValue {
 	
 	public double generateRandom(){
 		return average;
+		// Leave it like this to test consistencies
 		// return (rnd.nextGaussian() * deviation) + average;
 	}
 }

@@ -1,3 +1,4 @@
+package mysim;
 public class UtilizationVector {
 	public RandomValue CPU;
 	public RandomValue RAM;

@@ -1,3 +1,4 @@
+package mysim;
 import java.util.HashMap;
 
 

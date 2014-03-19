@@ -1,3 +1,4 @@
+package mysim;
 public class VMType {
 	double price;
 	String name;
@@ -12,5 +13,13 @@ public class VMType {
 	@Override
 	public String toString() {
 		return String.format("VM %s, %.2f per hour, booting time avg: %.2f, dev: %.2f", name, price, booting.average, booting.deviation);
+	}
+	
+	public double getPrice() {
+		return price;
+	}
+	
+	public String getName() {
+		return name;
 	}
 }

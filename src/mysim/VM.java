@@ -1,3 +1,4 @@
+package mysim;
 import java.util.ArrayList;
 
 public class VM {
@@ -8,10 +9,11 @@ public class VM {
 	public int bootTime = 0;
 	public int id;
 
-	public VM(VMType type) {
+	public VM(VMType type, int bootStartTime) {
 		counter++;
 		id = counter;
 		this.type = type;
+		this.bootStartTime = bootStartTime;
 		bootTime = (int) type.booting.generateRandom();
 	}
 
@@ -31,7 +33,7 @@ public class VM {
 			double utilCPU = 0, utilRAM = 0, utilDisk = 0, utilNetwork = 0;
 
 			for (Job j : jobs) {
-				if (j.isStarted() && !j.isFinished) {
+				if (j.isStarted() && !j.isFinished()) {
 					utilCPU += j.utilCPU;
 					utilRAM += j.utilRAM;
 					utilDisk += j.utilDisk;
