@@ -84,16 +84,19 @@ public class Simulator {
 		}
 	}
 
-	public void printState() {
-		// First VMs
+	public double calculateCost(){
+		double cost = 0;
+		for(VM vm : state.getVms()){
+			cost += Math.ceil((vm.destroyTime - vm.bootStartTime )/60.0) * vm.type.getPrice(); 
+		}
+		return cost;
 	}
-
+	
 	public Simulator(String filenamePrefix, IAllocationPolicy policy) {
 		parseCase(filenamePrefix);
 		this.policy = policy;
 	}
 
-	VM vmX;
 
 	public void startSimulation() {		
 		while (!state.isOver()) {			
@@ -102,17 +105,18 @@ public class Simulator {
 			updateJobs();
 			state.tick();
 		}
+		System.err.println("\nSIMULATION ENDED AT TIME: " +  (state.getTime() - 1) + " minutes, TOTAL COST: $" + calculateCost());
 	}
 
 	private void finishJobs() {
 		for (VM vm : state.getVms()) {
 			if (vm.isBooted(state.getTime())) {
-				state.log("VM " + vm.id + " booted");
+				state.log("VM #" + vm.id + " booted");
 			}
 			if (vm.isUp(state.getTime())) {
 				for (Job j : vm.jobs) {
 					if (!j.isDefunct() && j.isFinished()) {
-						state.log("Job #" + j.id + "(" + j.type.name + ") finished on VM #" + vm.id + String.format(" JobSpeed:%.2f", vm.getJobSpeed()));
+						state.log("Job #" + j.id + " finished on VM #" + vm.id);
 						j.setDefunct(true);
 					}
 				}

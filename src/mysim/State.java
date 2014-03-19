@@ -62,7 +62,7 @@ public class State {
 	}
 	
 	public void log(String str) {
-		System.out.println(String.format("%5ds\t%s", getTime(), str));
+		System.out.println(String.format("%5dm\t%s", getTime(), str));
 	}
 
 }

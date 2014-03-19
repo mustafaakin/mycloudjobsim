@@ -8,7 +8,18 @@ public class VM {
 	public int bootStartTime = -1;
 	public int bootTime = 0;
 	public int id;
-
+	private boolean isDestroyed = false;
+	int destroyTime = -1;
+	
+	public boolean isDestroyed() {
+		return isDestroyed;
+	}
+	
+	public void destroy(int time) {
+		isDestroyed = true;
+		destroyTime = time;
+	}
+	
 	public VM(VMType type, int bootStartTime) {
 		counter++;
 		id = counter;
@@ -22,7 +33,7 @@ public class VM {
 	}
 
 	public boolean isUp(int time) {
-		return time >= bootStartTime + bootTime;
+		return !isDestroyed && (time >= bootStartTime + bootTime);
 	}
 
 	public double getJobSpeed() {

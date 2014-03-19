@@ -1,7 +1,4 @@
 package mysim;
-import java.io.*;
-import java.util.*;
-
 import mysim.allocation.OneVMToRuleThemAll;
 
 public class Runner {
