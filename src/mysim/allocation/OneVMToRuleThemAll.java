@@ -9,6 +9,7 @@ import mysim.VMType;
 
 public class OneVMToRuleThemAll implements IAllocationPolicy {
 	private VM vm;
+	private boolean done = false;
 
 	@Override
 	public void addJob(State s, Job j) {
@@ -31,20 +32,18 @@ public class OneVMToRuleThemAll implements IAllocationPolicy {
 	@Override
 	public void update(State s) {
 		if (vm != null && vm.isUp(s.getTime())) {		
-			boolean isFinished = true;
 			for (Job j : vm.jobs) {
 				if (!j.isStarted() && !j.isFinished()) {
 					s.log("Job #" + j.getId() + " started on VM #" + vm.id);
 					j.startJob();
 				}
-				if ( !j.isFinished()){
-					isFinished = false;
-				}
-			}
-			if ( isFinished){
-				vm.destroy(s.getTime());
-				s.log("VM #" + vm.id + " is destroyed");
 			}
 		}
+	}
+
+	@Override
+	public void done(State s) {
+		vm.destroy(s.getTime());
+		s.log("VM #" + vm.id + " is destroyed");
 	}
 }

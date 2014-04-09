@@ -51,6 +51,7 @@ public class Job {
 		utilRAM = vector.RAM.generateRandom();
 		utilDisk = vector.disk.generateRandom();
 		utilNetwork = vector.network.generateRandom();
+		assignedTo = vm;
 	}
 
 	public Job(JobType type, int arrivalTime) {

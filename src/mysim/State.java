@@ -54,10 +54,18 @@ public class State {
 	public boolean isOver() {
 		// In efficient as hell
 		for (Job j : jobs) {
-			if (!j.isDefunct())
+			if (j.assignedTo == null)
 				return false;
 		}
 
+		return true;
+	}
+	
+	public boolean isComplete(){
+		for (Job j : jobs) {
+			if ( ! j.isDefunct)
+				return false;
+		}
 		return true;
 	}
 	

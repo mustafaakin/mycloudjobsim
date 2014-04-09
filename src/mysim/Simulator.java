@@ -105,9 +105,19 @@ public class Simulator {
 			updateJobs();
 			state.tick();
 		}
+		// All Jobs are assigned to some VM
+		state.log("All jobs assigned");		
+		while(!state.isComplete()){
+			finishJobs();
+			assignJobs();
+			updateJobs();
+			state.tick();
+		}
+		policy.done(state);
+		
 		System.err.println("\nSIMULATION ENDED AT TIME: " +  (state.getTime() - 1) + " minutes, TOTAL COST: $" + calculateCost());
 	}
-
+	
 	private void finishJobs() {
 		for (VM vm : state.getVms()) {
 			if (vm.isBooted(state.getTime())) {
@@ -130,6 +140,7 @@ public class Simulator {
 			if (vm.isUp(state.getTime())) {
 				for (Job j : vm.jobs) {
 					j.update(vm.getJobSpeed());
+					// System.out.println(vm.getJobSpeed());
 				}
 			}
 		}
@@ -153,7 +164,7 @@ public class Simulator {
 	private void jobStatus() {
 		String str = "";
 		for (Job j : state.getJobs()) {
-			str += j.toString() + "\t\t\t";
+			str += j.toString() + "\t";
 		}
 		state.log(str);
 	}

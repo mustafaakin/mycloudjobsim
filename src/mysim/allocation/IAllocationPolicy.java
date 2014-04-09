@@ -7,4 +7,6 @@ public interface IAllocationPolicy {
 	public void addJob(State s, Job j);
 	// Jobs must be started here, but you can delay the starting of them if you wish, or you can close VMs if you wish
 	public void update(State s);
+	// Notify if there are no jobs
+	public void done(State s);
 }
