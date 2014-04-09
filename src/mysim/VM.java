@@ -11,6 +11,10 @@ public class VM {
 	private boolean isDestroyed = false;
 	int destroyTime = -1;
 	
+	public ArrayList<Job> getJobs() {
+		return jobs;
+	}
+	
 	public boolean isDestroyed() {
 		return isDestroyed;
 	}

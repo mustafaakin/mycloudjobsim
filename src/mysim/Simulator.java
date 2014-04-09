@@ -98,7 +98,7 @@ public class Simulator {
 	}
 
 
-	public void startSimulation() {		
+	public State startSimulation() {		
 		while (!state.isOver()) {			
 			finishJobs();
 			assignJobs();
@@ -114,8 +114,11 @@ public class Simulator {
 			state.tick();
 		}
 		policy.done(state);
-		
-		System.err.println("\nSIMULATION ENDED AT TIME: " +  (state.getTime() - 1) + " minutes, TOTAL COST: $" + calculateCost());
+		state.setCost(calculateCost());
+		if ( State.LOG){
+			System.err.println("\nSIMULATION ENDED AT TIME: " +  (state.getTime() - 1) + " minutes, TOTAL COST: $" + calculateCost());			
+		}
+		return state;
 	}
 	
 	private void finishJobs() {

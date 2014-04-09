@@ -9,4 +9,6 @@ public interface IAllocationPolicy {
 	public void update(State s);
 	// Notify if there are no jobs
 	public void done(State s);
+	// Print Self
+	public String toString();
 }

@@ -4,11 +4,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class State {
+	public static boolean LOG = true;
+	
 	private HashMap<String, VMType> vmTypes = new HashMap<String, VMType>();
 	private HashMap<String, JobType> jobTypes = new HashMap<String, JobType>();
 	private ArrayList<Job> jobs = new ArrayList<Job>();
 	private ArrayList<VM> vms = new ArrayList<VM>();
 	private int time = 0;
+	private double cost = 0;
+
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
+
+	public double getCost() {
+		return cost;
+	}
 
 	public int getTime() {
 		return time;
@@ -60,17 +71,19 @@ public class State {
 
 		return true;
 	}
-	
-	public boolean isComplete(){
+
+	public boolean isComplete() {
 		for (Job j : jobs) {
-			if ( ! j.isDefunct)
+			if (!j.isDefunct)
 				return false;
 		}
 		return true;
 	}
-	
+
 	public void log(String str) {
-		System.out.println(String.format("%5dm\t%s", getTime(), str));
+		if ( LOG){
+			System.out.println(String.format("%5dm\t%s", getTime(), str));			
+		}
 	}
 
 }

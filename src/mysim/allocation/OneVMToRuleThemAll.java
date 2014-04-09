@@ -12,13 +12,18 @@ public class OneVMToRuleThemAll implements IAllocationPolicy {
 	private boolean done = false;
 
 	@Override
+	public String toString() {
+		return "OneVMToRuleThemAll";
+	}
+
+	@Override
 	public void addJob(State s, Job j) {
 		if (vm == null) {
 			VMType type = null;
 			double price = Double.MAX_VALUE;
-			for(Entry<String, VMType> e : s.getVmTypes().entrySet()){
+			for (Entry<String, VMType> e : s.getVmTypes().entrySet()) {
 				VMType type2 = e.getValue();
-				if ( type2.getPrice() < price){
+				if (type2.getPrice() < price) {
 					type = type2;
 					price = type2.getPrice();
 				}
@@ -31,7 +36,7 @@ public class OneVMToRuleThemAll implements IAllocationPolicy {
 
 	@Override
 	public void update(State s) {
-		if (vm != null && vm.isUp(s.getTime())) {		
+		if (vm != null && vm.isUp(s.getTime())) {
 			for (Job j : vm.jobs) {
 				if (!j.isStarted() && !j.isFinished()) {
 					s.log("Job #" + j.getId() + " started on VM #" + vm.id);

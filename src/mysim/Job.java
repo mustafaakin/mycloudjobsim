@@ -12,6 +12,12 @@ public class Job {
 	double utilCPU, utilRAM, utilDisk, utilNetwork;
 	boolean isStarted = false;
 	boolean isDefunct = false;
+	public JobType getType() {
+		return type;
+	}
+	public VM getAssignedTo() {
+		return assignedTo;
+	}
 
 	public void setDefunct(boolean isDefunct) {
 		this.isDefunct = isDefunct;
