@@ -19,8 +19,8 @@ public class Simulator {
 				String name = scan.next();
 				double price = scan.nextDouble();
 				double avg = scan.nextDouble();
-				double dev = scan.nextDouble();
-				RandomValue booting = new RandomValue(avg, dev);
+				// double dev = scan.nextDouble();
+				RandomValue booting = new RandomValue(avg, 0);
 				VMType vm = new VMType(name, price, booting);
 				state.getVmTypes().put(name, vm);
 			}
@@ -34,11 +34,11 @@ public class Simulator {
 
 				// 1 time, 4 resource
 				RandomValue[] randoms = new RandomValue[5];
-
+				
 				for (int i = 0; i < randoms.length; i++) {
 					double avg = scan.nextDouble();
-					double dev = scan.nextDouble();
-					RandomValue r = new RandomValue(avg, dev);
+					// double dev = scan.nextDouble();
+					RandomValue r = new RandomValue(avg, 0);
 					randoms[i] = r;
 				}
 

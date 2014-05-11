@@ -51,18 +51,32 @@ public String toString() {
 					type = e.getValue();
 				}
 			}
-		} else {
+		} else if (strategy == Strategy.Random) {
 			Collection<VMType> vmtypes = s.getVmTypes().values();
 			Random r = new Random();
 			int randomIdx = r.nextInt(vmtypes.size());
 			int idx = 0;
-			for(VMType v : vmtypes){
-				if ( idx == randomIdx){
+			for (VMType v : vmtypes) {
+				if (idx == randomIdx) {
 					type = v;
 					break;
 				}
 				idx++;
 			}
+		} else if (strategy == Strategy.CostPerf) {
+			double perf = Double.MAX_VALUE;
+			for (Entry<VMType, RandomValue> e : jobType.times.entrySet()) {
+				VMType vmtype = e.getKey();
+				double vmcost = vmtype.getPrice();
+				double vmtime = e.getValue().average;
+				double performance = (vmcost * vmtime);			
+				if (performance < perf) {
+					performance = perf;
+					type = e.getKey();
+				}
+			}
+		} else {
+			throw new IllegalArgumentException("Unknown Strategy: " + strategy);
 		}
 
 		vm = s.addVM(type, s.getTime());

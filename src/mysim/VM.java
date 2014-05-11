@@ -55,12 +55,61 @@ public class VM {
 					utilNetwork += j.utilNetwork;
 				}
 			}
-			// For now, simple assumption that CPU affects
-			if (utilCPU < 1) {
-				return 1;
-			} else {
-				return 1.0 / utilCPU;
+			
+			double speed = 1;
+			
+			if ( utilCPU > 1) {
+				speed /= utilCPU;
 			}
+			if ( utilRAM > 1) {
+				speed /= Math.exp(utilRAM);
+			}
+			if ( utilDisk > 1) {
+				speed /= utilDisk / 1.5;
+			}
+			if ( utilNetwork > 1) {
+				speed /= utilNetwork / 1.1;
+			}
+
+			return speed;		
+		}
+	}
+	public double getJobSpeedIfJobPut(Job job) {
+		if (jobs.size() == 0)
+			return 1;
+		else {
+			// CPU, RAM, disk, network
+			double utilCPU = 0, utilRAM = 0, utilDisk = 0, utilNetwork = 0;
+
+			for (Job j : jobs) {
+				if (j.isStarted() && !j.isFinished()) {
+					utilCPU += j.utilCPU;
+					utilRAM += j.utilRAM;
+					utilDisk += j.utilDisk;
+					utilNetwork += j.utilNetwork;
+				}
+			}
+			utilCPU += job.utilCPU;
+			utilRAM += job.utilRAM;
+			utilDisk += job.utilDisk;
+			utilNetwork += job.utilNetwork;
+			
+			double speed = 1;
+			
+			if ( utilCPU > 1) {
+				speed /= utilCPU;
+			}
+			if ( utilRAM > 1) {
+				speed /= Math.exp(utilRAM - 0.5);
+			}
+			if ( utilDisk > 1) {
+				speed /= utilDisk / 1.5;
+			}
+			if ( utilNetwork > 1) {
+				speed /= utilNetwork / 1.1;
+			}
+
+			return speed;		
 		}
 	}
 

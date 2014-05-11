@@ -1,9 +1,36 @@
-job1	m1.small	15	4	0.8	0.1	0.4	0.1	0.1	0.3	0.4	0.5
-job1	m1.medium	14	4	0.3	0.1	0.4	0.1	0.1	0.3	0.4	0.5
-job1	m1.large	13	4	0.6	0.1	0.4	0.1	0.1	0.3	0.4	0.5
-job2	m1.small	12	4	0.2	0.1	0.4	0.1	0.1	0.3	0.4	0.5
-job2	m1.medium	11	4	0.5	0.1	0.4	0.1	0.1	0.3	0.4	0.5
-job2	m1.large	10	4	0.3	0.1	0.4	0.1	0.1	0.3	0.4	0.5
-job3	m1.small	9	4	0.4	0.1	0.4	0.1	0.1	0.3	0.4	0.5
-job3	m1.medium	8	4	0.2	0.1	0.4	0.1	0.1	0.3	0.4	0.5
-job3	m1.large	7	4	0.6	0.1	0.4	0.1	0.1	0.3	0.4	0.5
+redis	avg1		15	0.7	1 0 0.2 
+redis	avg2		14	0.5	1 0 0.2
+redis	avg3		13	0.4	1 0 0.2
+redis	compute2	10	0.3	0.9 0 0.2 
+redis	compute8	9	0.2	0.8 0 0.2
+redis	disk2		14	0.5	0.9	0 0.2	
+redis	disk8		12	0.4	0.8	0 0.2
+redis	ram2		4	0.3 0.4 0 0.2
+redis	ram8		8	0.2 0.1 0 0.2
+scientific avg1	30	1	0.5	0	0	
+scientific avg2	22	1	0.4	0	0
+scientific avg3	18	1	0.3	0	0
+scientific compute2	11	1	0.4	0	0	
+scientific compute8	3	0.9	0.2	0	0
+scientific disk2	20	1	0	0	0	
+scientific disk8	16	1	0	0	0
+scientific ram2		15	1	0.1	0	0
+scientific ram8		12	1	0.1	0	0
+web	avg1	30		0.3	0.2		0.9	0.5	
+web	avg2	25		0.2 0.1		0.8	0.5
+web	avg3	20		0.1	0.05	0.8	0.5
+web	compute2	20	0.2		0.1		0.6		0.4
+web	compute8	16	0.05 	0.1		0.5		0.4
+web	disk2		15	0.1	 	0.1		0.1		0.3
+web	disk8		10	0.05	0.05	0.1		0.2
+web	ram2		20	0.2		0.05	0.6		0.5			
+web	ram8		16	0.1		0.01	0.5		0.5
+long	avg1	150	0.2	0.1	0.1	0.1
+long	avg2	130	0.1	0.1	0.1	0.1
+long	avg3	120	0.1	0.1	0.1	0.1
+long	compute2	80	0.1	0.1	0.1	0.1
+long	compute8	70	0.1	0.1	0.1	0.1
+long	disk2	110	0.1	0.1	0.1	0.1
+long	disk8	90	0.1	0.1	0.1	0.1
+long	ram2	110	0.1	0.1	0.1	0.1
+long	ram8	90	0.1	0.1	0.1	0.1

@@ -15,9 +15,9 @@ import mysim.VMType;
 public class IntelligentVMPerJob implements IAllocationPolicy {
 
 	public String toString() {
-		return "IntelligentVMPerJob " + strategy + " factor=" + factor;
+		return "IntelligentVMPerJob\t" + strategy + " " + String.format("%.1f", factor);
 	};
-	
+
 	Strategy strategy;
 	double factor;
 
@@ -53,7 +53,7 @@ public class IntelligentVMPerJob implements IAllocationPolicy {
 					type = e.getValue();
 				}
 			}
-		} else {
+		} else if (strategy == Strategy.Random) {
 			Collection<VMType> vmtypes = s.getVmTypes().values();
 			Random r = new Random();
 			int randomIdx = r.nextInt(vmtypes.size());
@@ -65,6 +65,20 @@ public class IntelligentVMPerJob implements IAllocationPolicy {
 				}
 				idx++;
 			}
+		} else if (strategy == Strategy.CostPerf) {
+			double perf = Double.MAX_VALUE;
+			for (Entry<VMType, RandomValue> e : jobType.times.entrySet()) {
+				VMType vmtype = e.getKey();
+				double vmcost = vmtype.getPrice();
+				double vmtime = e.getValue().average;			
+				double performance = (vmcost * vmtime);			
+				if (performance < perf) {
+					performance = perf;
+					type = e.getKey();
+				}
+			}
+		} else {
+			throw new IllegalArgumentException("Unknown Strategy: " + strategy);
 		}
 
 		boolean foundOne = false;
@@ -76,7 +90,7 @@ public class IntelligentVMPerJob implements IAllocationPolicy {
 						jobs++;
 					}
 				}
-				if (jobs / vm2.getJobSpeed() < factor) {
+				if (jobs / vm2.getJobSpeedIfJobPut(j) < factor) {
 					foundOne = true;
 					vm = vm2;
 					break;

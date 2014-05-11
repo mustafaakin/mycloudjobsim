@@ -1,3 +1,9 @@
-m1.small	0.3	5	3
-m1.medium	0.6	8	2
-m1.large	0.8	12	5
+avg1		0.070	10
+avg2		0.140	12
+avg3		0.280	14
+compute2	0.420	6
+compute8	1.680	4
+disk2		1.705	7
+disk8		6.820	5
+ram2		0.700	7
+ram8		2.800	5
