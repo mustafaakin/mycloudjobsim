@@ -62,7 +62,7 @@ public class VM {
 				speed /= utilCPU;
 			}
 			if ( utilRAM > 1) {
-				speed /= Math.exp(utilRAM);
+				speed /= Math.exp(utilRAM - 1);
 			}
 			if ( utilDisk > 1) {
 				speed /= utilDisk / 1.5;

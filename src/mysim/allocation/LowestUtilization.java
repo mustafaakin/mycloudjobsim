@@ -1,28 +1,25 @@
 package mysim.allocation;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Map.Entry;
-import java.util.Random;
 
 import mysim.Job;
 import mysim.JobType;
 import mysim.RandomValue;
 import mysim.State;
+import mysim.UtilizationVector;
 import mysim.VM;
 import mysim.VMType;
 
-public class IntelligentVMPerJob implements IAllocationPolicy {
+public class LowestUtilization  implements IAllocationPolicy {
 
 	public String toString() {
-		return "IntelligentVMPerJob;" + strategy + ";" + String.format("%.1f", factor);
+		return "LowestUtilization;" + ";" + String.format("%.1f", factor);
 	};
 
-	Strategy strategy;
 	double factor;
 
-	public IntelligentVMPerJob(Strategy s, double factor) {
-		strategy = s;
+	public LowestUtilization(double factor) {
 		this.factor = factor;
 	}
 
@@ -35,50 +32,19 @@ public class IntelligentVMPerJob implements IAllocationPolicy {
 		VMType type = null;
 		JobType jobType = j.getType();
 
-		if (strategy == Strategy.Fastest) {
-			double time = Double.MAX_VALUE;
-			for (Entry<VMType, RandomValue> e : jobType.times.entrySet()) {
-				double t = e.getValue().average;
-				if (t < time) {
-					time = t;
-					type = e.getKey();
-				}
+		double utilization = Double.MAX_VALUE;
+		// Find 
+		for (Entry<VMType, UtilizationVector> e : jobType.utilizationVector.entrySet()) {
+			UtilizationVector v = e.getValue();
+			double u = v.CPU.average + Math.exp(v.RAM.average) + v.disk.average / 1.5 + v.network.average / 1.1;
+			VMType vmtype = e.getKey();
+			double price = s.getVmTypes().get(vmtype.getName()).getPrice();
+			double time = jobType.times.get(vmtype).average;
+			u = u * time;
+			if ( u < utilization){
+				type = e.getKey();
+				utilization = u;
 			}
-		} else if (strategy == Strategy.Cheapest) {
-			double cost = Double.MAX_VALUE;
-			for (Entry<String, VMType> e : s.getVmTypes().entrySet()) {
-				double t = e.getValue().getPrice();
-				if (t < cost) {
-					cost = t;
-					type = e.getValue();
-				}
-			}
-		} else if (strategy == Strategy.Random) {
-			Collection<VMType> vmtypes = s.getVmTypes().values();
-			Random r = new Random();
-			int randomIdx = r.nextInt(vmtypes.size());
-			int idx = 0;
-			for (VMType v : vmtypes) {
-				if (idx == randomIdx) {
-					type = v;
-					break;
-				}
-				idx++;
-			}
-		} else if (strategy == Strategy.CostPerf) {
-			double perf = Double.MAX_VALUE;
-			for (Entry<VMType, RandomValue> e : jobType.times.entrySet()) {
-				VMType vmtype = e.getKey();
-				double vmcost = vmtype.getPrice();
-				double vmtime = e.getValue().average;			
-				double performance = vmcost * vmcost *  vmtime;			
-				if (performance < perf) {
-					performance = perf;
-					type = e.getKey();
-				}
-			}
-		} else {
-			throw new IllegalArgumentException("Unknown Strategy: " + strategy);
 		}
 
 		boolean foundOne = false;
@@ -90,7 +56,7 @@ public class IntelligentVMPerJob implements IAllocationPolicy {
 						jobs++;
 					}
 				}
-				if (jobs / vm2.getJobSpeedIfJobPut(j) < factor) {
+				if (jobs  < factor) {
 					foundOne = true;
 					vm = vm2;
 					break;
@@ -137,4 +103,5 @@ public class IntelligentVMPerJob implements IAllocationPolicy {
 			}
 		}
 	}
+
 }

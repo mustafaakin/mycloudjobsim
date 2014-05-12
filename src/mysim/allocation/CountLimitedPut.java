@@ -2,8 +2,8 @@ package mysim.allocation;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map.Entry;
 import java.util.Random;
+import java.util.Map.Entry;
 
 import mysim.Job;
 import mysim.JobType;
@@ -12,18 +12,18 @@ import mysim.State;
 import mysim.VM;
 import mysim.VMType;
 
-public class IntelligentVMPerJob implements IAllocationPolicy {
+public class CountLimitedPut implements IAllocationPolicy {
 
 	public String toString() {
-		return "IntelligentVMPerJob;" + strategy + ";" + String.format("%.1f", factor);
+		return "CountLimitedPut;" + strategy  + ";" + String.format("%.1f", factor);
 	};
 
 	Strategy strategy;
 	double factor;
 
-	public IntelligentVMPerJob(Strategy s, double factor) {
-		strategy = s;
+	public CountLimitedPut(Strategy strategy, double factor) {
 		this.factor = factor;
+		this.strategy = strategy;
 	}
 
 	private ArrayList<VM> vms = new ArrayList<VM>();
@@ -90,7 +90,7 @@ public class IntelligentVMPerJob implements IAllocationPolicy {
 						jobs++;
 					}
 				}
-				if (jobs / vm2.getJobSpeedIfJobPut(j) < factor) {
+				if (jobs  < factor) {
 					foundOne = true;
 					vm = vm2;
 					break;

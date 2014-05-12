@@ -14,16 +14,17 @@ import mysim.VMType;
 
 public class VMPerJob implements IAllocationPolicy {
 
-
 	Strategy strategy;
 
 	public VMPerJob(Strategy s) {
 		strategy = s;
 	}
-@Override
-public String toString() {
-	return "VMPer Job " + strategy;
-}
+
+	@Override
+	public String toString() {
+		return "VMPerJob;" + strategy + ";";
+	}
+
 	private ArrayList<VM> vms = new ArrayList<VM>();
 	private boolean done = false;
 
@@ -69,7 +70,7 @@ public String toString() {
 				VMType vmtype = e.getKey();
 				double vmcost = vmtype.getPrice();
 				double vmtime = e.getValue().average;
-				double performance = (vmcost * vmtime);			
+				double performance = (vmcost * vmtime);
 				if (performance < perf) {
 					performance = perf;
 					type = e.getKey();
